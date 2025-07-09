@@ -17,6 +17,7 @@ Dokumentasi pengembangan tersedia di direktori `/docs`:
 - [009 - Penggantian Emoji dengan Heroicons](./docs/009_penggantian_emoji_dengan_heroicons.md)
 - [010 - Perbaikan Import TotalStats](./docs/010_perbaikan_import_totalstats.md)
 - [011 - Perbaikan Icon Heroicons di Halaman](./docs/011_perbaikan_icon_heroicons_di_halaman.md)
+- [012 - Integrasi Dashboard dengan Data Real](./docs/012_integrasi_dashboard_dengan_data_real.md)
 
 ## Teknologi
 
