@@ -4,6 +4,7 @@ import { SortedTrucksTable } from '../components/Tables';
 import { useTruckData } from '../hooks';
 import { ERROR_MESSAGES } from '../constants';
 import { exportToCSV } from '../utils';
+import { CheckCircleIcon, ChartBarIcon } from '@heroicons/react/24/outline';
 
 const TrukSudahDicacahPage: React.FC = () => {
   const { sortedTrucks, isLoading, deleteTruck } = useTruckData();
@@ -54,8 +55,9 @@ const TrukSudahDicacahPage: React.FC = () => {
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">
-              ✅ Truk Sudah Dicacah
+            <h1 className="text-3xl font-bold text-gray-800 mb-2 flex items-center">
+              <CheckCircleIcon className="w-8 h-8 mr-3" />
+              Truk Sudah Dicacah
             </h1>
             <p className="text-gray-600">
               Daftar truk yang sudah selesai dicacah
@@ -66,7 +68,8 @@ const TrukSudahDicacahPage: React.FC = () => {
               onClick={handleExportCSV}
               className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-md flex items-center"
             >
-              <span className="mr-2">📊</span> Export CSV
+              <ChartBarIcon className="w-4 h-4 mr-2" />
+              Export CSV
             </button>
           </div>
         </div>

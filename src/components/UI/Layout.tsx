@@ -1,5 +1,6 @@
 import React from 'react';
 import { Sidebar } from './Sidebar';
+import { CheckIcon, XMarkIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -82,8 +83,11 @@ export const NotificationProvider: React.FC<{ children: React.ReactNode }> = ({ 
         }`}>
           <div className="flex items-center">
             <span className="mr-2">
-              {notification.type === 'success' ? '✓' :
-              notification.type === 'error' ? '✗' : 'ℹ'}
+              {notification.type === 'success' ? 
+                <CheckIcon className="w-5 h-5" /> :
+              notification.type === 'error' ? 
+                <XMarkIcon className="w-5 h-5" /> : 
+                <InformationCircleIcon className="w-5 h-5" />}
             </span>
             {notification.message}
           </div>

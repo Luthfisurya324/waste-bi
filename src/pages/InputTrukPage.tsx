@@ -4,6 +4,7 @@ import { InitialTruckForm } from '../components/Forms';
 import { useTruckData } from '../hooks';
 import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../constants';
 import type { InitialTruckFormData } from '../types';
+import { TruckIcon } from '@heroicons/react/24/outline';
 
 const InputTrukPage: React.FC = () => {
   const { isLoading, addInitialTruckData } = useTruckData();
@@ -27,8 +28,9 @@ const InputTrukPage: React.FC = () => {
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">
-              🚛 Input Data Truk
+            <h1 className="text-3xl font-bold text-gray-800 mb-2 flex items-center">
+              <TruckIcon className="w-8 h-8 mr-3" />
+              Input Data Truk
             </h1>
             <p className="text-gray-600">
               Masukkan data awal truk yang akan dicacah

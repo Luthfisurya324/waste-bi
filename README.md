@@ -14,6 +14,9 @@ Dokumentasi pengembangan tersedia di direktori `/docs`:
 - [006 - Implementasi No Explicit Any](./docs/006_implementasi_no_explicit_any.md)
 - [007 - Implementasi No Unused Vars](./docs/007_implementasi_no_unused_vars.md)
 - [008 - Perbaikan Path Impor Recharts](./docs/008_perbaikan_path_impor_recharts.md)
+- [009 - Penggantian Emoji dengan Heroicons](./docs/009_penggantian_emoji_dengan_heroicons.md)
+- [010 - Perbaikan Import TotalStats](./docs/010_perbaikan_import_totalstats.md)
+- [011 - Perbaikan Icon Heroicons di Halaman](./docs/011_perbaikan_icon_heroicons_di_halaman.md)
 
 ## Teknologi
 

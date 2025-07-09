@@ -5,6 +5,7 @@ import { useTruckData } from '../hooks';
 import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../constants';
 import { formatDate } from '../utils';
 import type { TruckData, SortingFormData } from '../types';
+import { ScaleIcon, ClipboardDocumentListIcon } from '@heroicons/react/24/outline';
 
 const PencacahanPage: React.FC = () => {
   const { isLoading, addSortingData, unsortedTrucks } = useTruckData();
@@ -43,8 +44,9 @@ const PencacahanPage: React.FC = () => {
       <div className="bg-white rounded-lg shadow-md p-6 mb-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">
-              ⚖️ Pencacahan
+            <h1 className="text-3xl font-bold text-gray-800 mb-2 flex items-center">
+              <ScaleIcon className="w-8 h-8 mr-3" />
+              Pencacahan
             </h1>
             <p className="text-gray-600">
               Input data hasil pencacahan sampah
@@ -63,8 +65,9 @@ const PencacahanPage: React.FC = () => {
         />
       ) : (
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
-            ⚖️ Pencacahan
+          <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+            <ScaleIcon className="w-6 h-6 mr-2" />
+            Pencacahan
           </h2>
           <div className="text-center py-8">
             <svg className="w-16 h-16 text-gray-300 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -83,8 +86,9 @@ const PencacahanPage: React.FC = () => {
       {/* Daftar Truk yang Belum Dicacah */}
       {unsortedTrucks.length > 0 && !selectedTruck && (
         <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-          <h2 className="text-xl font-semibold text-gray-800 mb-4">
-            📋 Pilih Truk untuk Dicacah
+          <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+            <ClipboardDocumentListIcon className="w-6 h-6 mr-2" />
+            Pilih Truk untuk Dicacah
           </h2>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">

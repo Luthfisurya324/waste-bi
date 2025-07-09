@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { ChartBarIcon, TruckIcon, ScaleIcon, ClipboardIcon, CheckCircleIcon, HomeIcon } from '@heroicons/react/24/outline';
 
 type SidebarItemProps = {
   to: string;
-  icon: string;
+  icon: React.ReactNode;
   label: string;
   active?: boolean;
 };
@@ -28,17 +29,19 @@ type SidebarProps = {
 
 export const Sidebar: React.FC<SidebarProps> = ({ activePage }) => {
   const menuItems = [
-    { to: '/', icon: '📊', label: 'Dashboard' },
-    { to: '/input-truk', icon: '🚛', label: 'Input Data Truk' },
-    { to: '/pencacahan', icon: '⚖️', label: 'Pencacahan' },
-    { to: '/truk-belum-dicacah', icon: '📋', label: 'Truk Belum Dicacah' },
-    { to: '/truk-sudah-dicacah', icon: '✅', label: 'Truk Sudah Dicacah' },
+    { to: '/', icon: <ChartBarIcon className="w-5 h-5" />, label: 'Dashboard' },
+    { to: '/input-truk', icon: <TruckIcon className="w-5 h-5" />, label: 'Input Data Truk' },
+    { to: '/pencacahan', icon: <ScaleIcon className="w-5 h-5" />, label: 'Pencacahan' },
+    { to: '/truk-belum-dicacah', icon: <ClipboardIcon className="w-5 h-5" />, label: 'Truk Belum Dicacah' },
+    { to: '/truk-sudah-dicacah', icon: <CheckCircleIcon className="w-5 h-5" />, label: 'Truk Sudah Dicacah' },
   ];
 
   return (
     <div className="w-64 bg-white shadow-md h-full p-4 flex flex-col">
       <div className="mb-6">
-        <h1 className="text-xl font-bold text-gray-800">🚛 Waste BI</h1>
+        <h1 className="text-xl font-bold text-gray-800 flex items-center">
+          <TruckIcon className="w-6 h-6 mr-2" /> Waste BI
+        </h1>
         <p className="text-sm text-gray-600">Sistem Pencacahan Sampah</p>
       </div>
       

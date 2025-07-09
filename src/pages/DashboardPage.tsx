@@ -4,6 +4,7 @@ import { Dashboard } from '../components/Dashboard';
 import { useTruckData } from '../hooks';
 import { Button } from '../components/UI';
 import { UI_LABELS, ERROR_MESSAGES } from '../constants';
+import { TrashIcon, ChartBarIcon, CheckIcon, RectangleStackIcon, CheckCircleIcon } from '@heroicons/react/24/outline';
 
 // Styling untuk halaman dashboard modern fullscreen
 const dashboardStyles = {
@@ -54,15 +55,35 @@ const DashboardPage: React.FC = () => {
               onClick={handleClearAllData}
               disabled={trucks.length === 0}
             >
-              🗑️ Hapus Semua
+              <TrashIcon className="w-4 h-4 mr-2" />
+              Hapus Semua
             </Button>
             <Button
               variant="primary"
               size="sm"
               onClick={() => window.print()}
             >
-              📊 Export Report
+              <ChartBarIcon className="w-4 h-4 mr-2" />
+              Export Report
             </Button>
+          </div>
+        </div>
+        
+        {/* Quick Info */}
+        <div className="mt-4 pt-4 border-t border-gray-200">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm text-gray-600">
+            <div className="flex items-center">
+              <CheckIcon className="w-4 h-4 mr-2 text-green-500" />
+              Real-time monitoring
+            </div>
+            <div className="flex items-center">
+              <RectangleStackIcon className="w-4 h-4 mr-2 text-blue-500" />
+              Data analytics
+            </div>
+            <div className="flex items-center">
+              <CheckCircleIcon className="w-4 h-4 mr-2 text-purple-500" />
+              Automated reporting
+            </div>
           </div>
         </div>
       </div>

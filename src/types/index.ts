@@ -8,7 +8,7 @@ export type {
   TruckStatus,
   InitialTruckFormData,
   SortingFormData,
-  TotalStats,
+
   ValidationResult,
   WasteCategory,
   WasteCategoryItem
