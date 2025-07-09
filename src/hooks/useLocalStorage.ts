@@ -101,8 +101,10 @@ export function useAppSettings() {
     notifications: true
   });
 
+  type SettingValue = string | boolean | number;
+
   const updateSetting = useCallback(
-    (key: string, value: any) => {
+    (key: string, value: SettingValue) => {
       setSettings(prev => ({
         ...prev,
         [key]: value

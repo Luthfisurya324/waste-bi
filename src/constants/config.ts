@@ -52,27 +52,34 @@ export const DISPLAY_CONFIG = {
 // Konfigurasi warna untuk status
 export const COLOR_CONFIG = {
   STATUS: {
-    INITIAL: {
-      bg: 'bg-yellow-100',
-      text: 'text-yellow-800',
-      border: 'border-yellow-200'
-    },
-    SORTED: {
-      bg: 'bg-green-100',
-      text: 'text-green-800',
-      border: 'border-green-200'
-    }
+    INITIAL: 'bg-blue-100 text-blue-800',
+    SORTED: 'bg-green-100 text-green-800'
   },
   DIFFERENCE: {
-    POSITIVE: 'text-red-600',
-    NEGATIVE: 'text-blue-600',
-    ZERO: 'text-gray-900'
+    POSITIVE: 'text-green-600',
+    NEGATIVE: 'text-red-600',
+    ZERO: 'text-gray-600'
   },
   STATS: {
-    INITIAL: 'text-blue-600',
-    ORGANIC: 'text-green-600',
-    INORGANIC: 'text-yellow-600',
-    DIFFERENCE: 'text-red-600'
+    INITIAL: 'bg-blue-500',
+    ORGANIC: 'bg-green-500',
+    INORGANIC: 'bg-amber-500',
+    DIFFERENCE: 'bg-purple-500',
+    RECYCLED: 'bg-emerald-500',
+    NON_RECYCLED: 'bg-red-500',
+    SAVINGS: 'bg-indigo-500'
+  },
+  RECYCLING: {
+    CARDBOARD: '#4CAF50',
+    PAPER: '#2196F3',
+    METAL: '#FFC107',
+    PLASTIC: '#9C27B0',
+    OIL: '#FF5722'
+  },
+  CHART: {
+    RECYCLED: '#4CAF50',
+    COLLECTED: '#90EE90',
+    EMISSIONS: '#8BC34A'
   }
 } as const;
 

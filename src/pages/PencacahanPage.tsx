@@ -4,7 +4,7 @@ import { SortingForm } from '../components/Forms';
 import { useTruckData } from '../hooks';
 import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../constants';
 import { formatDate } from '../utils';
-import type { TruckData } from '../types';
+import type { TruckData, SortingFormData } from '../types';
 
 const PencacahanPage: React.FC = () => {
   const { isLoading, addSortingData, unsortedTrucks } = useTruckData();
@@ -14,7 +14,7 @@ const PencacahanPage: React.FC = () => {
   const [selectedTruck, setSelectedTruck] = React.useState<TruckData | null>(null);
 
   // Handler untuk form pencacahan
-  const handleSortingSubmit = React.useCallback(async (formData: any): Promise<boolean> => {
+  const handleSortingSubmit = React.useCallback(async (formData: SortingFormData): Promise<boolean> => {
     if (!selectedTruck) {
       showNotification('error', 'Pilih truk terlebih dahulu');
       return false;

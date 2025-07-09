@@ -1,14 +1,17 @@
 # Peningkatan Kualitas dan Pemeliharaan Kode Waste-BI
 
-## Deskripsi
-Dokumen ini menjelaskan serangkaian peningkatan yang diimplementasikan untuk meningkatkan kualitas kode, keamanan, dan pemeliharaan aplikasi Waste-BI.
+## 📋 Deskripsi
+Dokumen ini menjelaskan serangkaian peningkatan yang diimplementasikan untuk meningkatkan kualitas kode, keamanan, dan pemeliharaan aplikasi Waste-BI. Selain itu, dokumen ini juga mencakup implementasi dashboard BI modern dengan visualisasi data yang lebih informatif.
 
-## Tujuan
+## 🎯 Tujuan
 - Meningkatkan ketahanan aplikasi terhadap error
 - Memperbaiki validasi data untuk mencegah input yang tidak valid
 - Menambahkan fitur yang meningkatkan pengalaman pengguna
 - Mengoptimalkan performa aplikasi
 - Meningkatkan keamanan aplikasi
+- Meningkatkan tampilan dashboard dengan visualisasi data yang lebih informatif
+- Menambahkan komponen-komponen baru untuk menampilkan data statistik
+- Menyesuaikan tampilan dengan konsep dashboard BI modern
 
 ## Implementasi
 
@@ -68,6 +71,22 @@ Dokumen ini menjelaskan serangkaian peningkatan yang diimplementasikan untuk men
    - Dialog konfirmasi sebelum menghapus data truk
    - Dialog konfirmasi sebelum menghapus semua data
 
+5. **Dashboard Modern**
+   - Layout dashboard yang lebih modern dengan kartu-kartu statistik yang informatif
+   - Visualisasi data dengan grafik dan diagram yang interaktif
+
+6. **Grafik Daur Ulang vs Terkumpul**
+   - Grafik donut untuk menampilkan perbandingan sampah yang didaur ulang vs yang terkumpul
+   - Persentase yang jelas untuk memudahkan pemahaman
+
+7. **Kategori Daur Ulang**
+   - Tampilan kategori daur ulang dengan ikon dan nilai untuk setiap kategori
+   - Kategori meliputi: Kardus, Kertas, Logam, Plastik, dan Minyak & Oli
+
+8. **Grafik Emisi CO2**
+   - Grafik area untuk menampilkan tren emisi CO2 per tahun
+   - Visualisasi penurunan emisi CO2 dari waktu ke waktu
+
 ### Bug yang Diperbaiki
 
 1. **Validasi Nilai Negatif**
@@ -106,7 +125,7 @@ Jika terjadi masalah dengan fitur-fitur baru, berikut adalah beberapa langkah tr
 2. Perubahan UI minimal untuk mempertahankan konsistensi dengan desain yang ada
 3. Kode baru mengikuti konvensi dan pola yang sudah ada dalam proyek
 
-## Checklist
+## ✅ Checklist
 
 - [x] Implementasi ErrorBoundary
 - [x] Integrasi ErrorBoundary di App.tsx
@@ -116,5 +135,10 @@ Jika terjadi masalah dengan fitur-fitur baru, berikut adalah beberapa langkah tr
 - [x] Implementasi fitur pencarian di halaman daftar truk
 - [x] Implementasi fitur ekspor CSV di halaman daftar truk
 - [x] Peningkatan validasi input di SortingForm
+- [x] Implementasi dashboard modern dengan visualisasi data
+- [x] Penambahan komponen RecyclingChart
+- [x] Penambahan komponen RecyclingCategories
+- [x] Penambahan komponen CO2EmissionsChart
+- [x] Perluasan tipe data untuk mendukung visualisasi
 - [x] Pengujian manual semua perubahan
 - [x] Dokumentasi perubahan

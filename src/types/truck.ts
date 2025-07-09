@@ -15,13 +15,16 @@ export interface TruckData {
   /** Tanggal dan waktu truk masuk ke fasilitas */
   entryDate: Date;
   
-  /** Berat sampah organik setelah dicacah (dalam kg) */
+  /** Daftar kategori sampah dengan beratnya */
+  wasteItems?: WasteCategoryItem[];
+  
+  /** Berat sampah organik setelah dicacah (dalam kg) - untuk kompatibilitas */
   organicWeight?: number;
   
-  /** Berat sampah anorganik setelah dicacah (dalam kg) */
+  /** Berat sampah anorganik setelah dicacah (dalam kg) - untuk kompatibilitas */
   inorganicWeight?: number;
   
-  /** Total berat yang berhasil dicacah (organik + anorganik) */
+  /** Total berat yang berhasil dicacah (semua kategori) */
   totalProcessed?: number;
   
   /** Selisih antara berat awal dan total yang dicacah */
@@ -49,12 +52,71 @@ export interface InitialTruckFormData {
 }
 
 /**
+ * Interface untuk kategori sampah
+ */
+export interface WasteCategory {
+  /** ID unik kategori */
+  id: string;
+  
+  /** Nama kategori sampah */
+  name: string;
+  
+  /** Deskripsi kategori (opsional) */
+  description?: string;
+  
+  /** Warna yang terkait dengan kategori */
+  color?: string;
+}
+
+/**
+ * Interface untuk item kategori sampah dengan berat
+ */
+export interface WasteCategoryItem {
+  /** ID kategori sampah */
+  categoryId: string;
+  
+  /** Berat sampah dalam kategori ini (kg) */
+  weight: number;
+}
+
+/**
  * Interface untuk form input data pencacahan
  */
 export interface SortingFormData {
+  /** ID truk yang dicacah */
   truckId: string;
-  organicWeight: number;
-  inorganicWeight: number;
+  
+  /** Daftar kategori sampah dengan beratnya */
+  wasteItems: WasteCategoryItem[];
+  
+  /** Untuk kompatibilitas dengan kode lama */
+  organicWeight?: number;
+  inorganicWeight?: number;
+}
+
+/**
+ * Interface untuk kategori daur ulang
+ */
+export interface RecyclingCategory {
+  /** Nama kategori */
+  name: string;
+  
+  /** Nilai dalam kg */
+  value: number;
+  
+  /** Ikon untuk kategori */
+  icon: React.ReactNode;
+}
+
+/**
+ * Interface untuk data emisi CO2
+ */
+export interface CO2Emission {
+  /** Tahun */
+  year: number;
+  
+  /** Nilai emisi dalam kg */
+  value: number;
 }
 
 /**
@@ -72,6 +134,18 @@ export interface TotalStats {
   
   /** Total selisih dari semua truk */
   totalDifference: number;
+  
+  /** Total sampah yang didaur ulang */
+  totalRecycled?: number;
+  
+  /** Total sampah yang tidak didaur ulang */
+  totalNonRecycled?: number;
+  
+  /** Kategori daur ulang */
+  recyclingCategories?: RecyclingCategory[];
+  
+  /** Data emisi CO2 per tahun */
+  co2Emissions?: CO2Emission[];
 }
 
 /**

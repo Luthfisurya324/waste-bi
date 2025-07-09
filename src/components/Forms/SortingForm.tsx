@@ -1,8 +1,9 @@
 import React, { useState, useCallback } from 'react';
 import { Button, Input } from '../UI';
-import type { SortingFormData, TruckData } from '../../types';
+import { WasteCategoryList } from './WasteCategoryList';
+import type { SortingFormData, TruckData, WasteCategoryItem } from '../../types';
 import { validateSortingForm, formatDate, formatWeight } from '../../utils';
-import { UI_LABELS, PLACEHOLDERS, ERROR_MESSAGES, INFO_MESSAGES } from '../../constants';
+import { UI_LABELS, PLACEHOLDERS, ERROR_MESSAGES } from '../../constants';
 
 /**
  * Props untuk komponen SortingForm
@@ -38,17 +39,59 @@ export const SortingForm: React.FC<SortingFormProps> = ({
   // State untuk form data
   const [formData, setFormData] = useState<SortingFormData>({
     truckId: selectedTruck?.id || '',
+    wasteItems: [],
+    // Untuk kompatibilitas dengan kode lama
     organicWeight: 0,
     inorganicWeight: 0
   });
 
-  // Update truckId ketika selectedTruck berubah
+  // Update truckId dan wasteItems ketika selectedTruck berubah
   React.useEffect(() => {
     if (selectedTruck) {
-      setFormData(prev => ({
-        ...prev,
-        truckId: selectedTruck.id
-      }));
+      // Jika truk sudah memiliki data wasteItems, gunakan itu
+      if (selectedTruck.wasteItems && selectedTruck.wasteItems.length > 0) {
+        setFormData(prev => ({
+          ...prev,
+          truckId: selectedTruck.id,
+          wasteItems: [...selectedTruck.wasteItems],
+          organicWeight: selectedTruck.organicWeight || 0,
+          inorganicWeight: selectedTruck.inorganicWeight || 0
+        }));
+      } 
+      // Jika truk belum memiliki data wasteItems tapi memiliki data organik/anorganik (kode lama)
+      else if (selectedTruck.organicWeight !== undefined || selectedTruck.inorganicWeight !== undefined) {
+        const organicWeight = selectedTruck.organicWeight || 0;
+        const inorganicWeight = selectedTruck.inorganicWeight || 0;
+        
+        // Konversi ke format baru
+        const wasteItems: WasteCategoryItem[] = [];
+        
+        if (organicWeight > 0) {
+          wasteItems.push({ categoryId: 'organic', weight: organicWeight });
+        }
+        
+        if (inorganicWeight > 0) {
+          wasteItems.push({ categoryId: 'inorganic', weight: inorganicWeight });
+        }
+        
+        setFormData(prev => ({
+          ...prev,
+          truckId: selectedTruck.id,
+          wasteItems,
+          organicWeight,
+          inorganicWeight
+        }));
+      }
+      // Jika truk belum memiliki data sama sekali
+      else {
+        setFormData(prev => ({
+          ...prev,
+          truckId: selectedTruck.id,
+          wasteItems: [],
+          organicWeight: 0,
+          inorganicWeight: 0
+        }));
+      }
     }
   }, [selectedTruck]);
 
@@ -57,14 +100,6 @@ export const SortingForm: React.FC<SortingFormProps> = ({
   
   // State untuk form submission
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // Truck info untuk display
-  const truckInfo = selectedTruck ? 
-    `${selectedTruck.plateNumber} - ${formatWeight(selectedTruck.initialWeight)} (${formatDate(selectedTruck.entryDate, { 
-      day: 'numeric', 
-      month: 'short', 
-      year: 'numeric' 
-    })})` : '';
 
   // Handler untuk perubahan input
   const handleInputChange = useCallback(
@@ -106,6 +141,11 @@ export const SortingForm: React.FC<SortingFormProps> = ({
               ...prev,
               [field]: numValue
             }));
+            
+            // Jika field adalah organicWeight atau inorganicWeight, update juga wasteItems
+            if (field === 'organicWeight' || field === 'inorganicWeight') {
+              updateWasteItemFromLegacyField(field, numValue);
+            }
           }
         }
 
@@ -120,6 +160,68 @@ export const SortingForm: React.FC<SortingFormProps> = ({
       },
     [errors]
   );
+  
+  // Handler untuk perubahan daftar kategori sampah
+  const handleWasteItemsChange = useCallback((wasteItems: WasteCategoryItem[]) => {
+    // Update wasteItems
+    setFormData(prev => ({
+      ...prev,
+      wasteItems
+    }));
+    
+    // Update juga field organicWeight dan inorganicWeight untuk kompatibilitas
+    const organicItem = wasteItems.find(item => item.categoryId === 'organic');
+    const inorganicItem = wasteItems.find(item => item.categoryId === 'inorganic');
+    
+    setFormData(prev => ({
+      ...prev,
+      wasteItems,
+      organicWeight: organicItem ? organicItem.weight : 0,
+      inorganicWeight: inorganicItem ? inorganicItem.weight : 0
+    }));
+    
+    // Clear errors untuk wasteItems
+    if (errors.wasteItems) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors.wasteItems;
+        return newErrors;
+      });
+    }
+  }, [errors]);
+  
+  // Helper untuk mengupdate wasteItems dari field legacy (organicWeight, inorganicWeight)
+  const updateWasteItemFromLegacyField = useCallback((field: 'organicWeight' | 'inorganicWeight', value: number) => {
+    const categoryId = field === 'organicWeight' ? 'organic' : 'inorganic';
+    
+    setFormData(prev => {
+      // Cek apakah kategori sudah ada di wasteItems
+      const existingIndex = prev.wasteItems.findIndex(item => item.categoryId === categoryId);
+      
+      let updatedWasteItems;
+      
+      if (existingIndex >= 0) {
+        // Update item yang sudah ada
+        updatedWasteItems = [...prev.wasteItems];
+        updatedWasteItems[existingIndex] = {
+          ...updatedWasteItems[existingIndex],
+          weight: value
+        };
+      } else {
+        // Tambahkan item baru
+        updatedWasteItems = [
+          ...prev.wasteItems,
+          { categoryId, weight: value }
+        ];
+      }
+      
+      return {
+        ...prev,
+        wasteItems: updatedWasteItems,
+        [field]: value
+      };
+    });
+  }, []);
 
   // Handler untuk submit form
   const handleSubmit = useCallback(
@@ -145,6 +247,8 @@ export const SortingForm: React.FC<SortingFormProps> = ({
               fieldErrors.organicWeight = error;
             } else if (error.includes('anorganik')) {
               fieldErrors.inorganicWeight = error;
+            } else if (error.includes('kategori sampah')) {
+              fieldErrors.wasteItems = error;
             } else {
               fieldErrors.general = error;
             }
@@ -160,6 +264,7 @@ export const SortingForm: React.FC<SortingFormProps> = ({
           // Reset form jika berhasil
           setFormData({
             truckId: '',
+            wasteItems: [],
             organicWeight: 0,
             inorganicWeight: 0
           });
@@ -178,6 +283,7 @@ export const SortingForm: React.FC<SortingFormProps> = ({
   const handleReset = useCallback(() => {
     setFormData({
       truckId: '',
+      wasteItems: [],
       organicWeight: 0,
       inorganicWeight: 0
     });
@@ -188,10 +294,20 @@ export const SortingForm: React.FC<SortingFormProps> = ({
 
   // Hitung total dan sisa berat dengan useMemo untuk optimasi performa
   const { totalProcessed, remainingWeight } = React.useMemo(() => {
-    const total = formData.organicWeight + formData.inorganicWeight;
+    // Hitung total dari wasteItems
+    const totalFromWasteItems = formData.wasteItems.reduce(
+      (sum, item) => sum + (item.weight || 0), 
+      0
+    );
+    
+    // Gunakan total dari wasteItems jika ada, jika tidak gunakan organicWeight + inorganicWeight
+    const total = totalFromWasteItems > 0 
+      ? totalFromWasteItems 
+      : formData.organicWeight + formData.inorganicWeight;
+      
     const remaining = selectedTruck ? selectedTruck.initialWeight - total : 0;
     return { totalProcessed: total, remainingWeight: remaining };
-  }, [formData.organicWeight, formData.inorganicWeight, selectedTruck]);
+  }, [formData.wasteItems, formData.organicWeight, formData.inorganicWeight, selectedTruck]);
 
   return (
     <div className={`bg-white rounded-lg shadow-md p-6 ${className}`}>
@@ -237,8 +353,19 @@ export const SortingForm: React.FC<SortingFormProps> = ({
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-
+          {/* Kategori Sampah Dinamis */}
+          <div className="mb-6">
+            <h3 className="text-md font-medium text-gray-700 mb-2">Kategori Sampah</h3>
+            <WasteCategoryList
+              items={formData.wasteItems}
+              onChange={handleWasteItemsChange}
+              errors={errors.wasteItems ? { general: errors.wasteItems } : {}}
+              disabled={isFormLoading}
+            />
+          </div>
+          
+          {/* Untuk kompatibilitas dengan kode lama */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 hidden">
             {/* Sampah Organik */}
             <Input
               label={UI_LABELS.ORGANIC_WEIGHT}
@@ -249,7 +376,6 @@ export const SortingForm: React.FC<SortingFormProps> = ({
               error={errors.organicWeight}
               min="0"
               step="0.1"
-              required
               disabled={isFormLoading}
             />
 
@@ -263,7 +389,6 @@ export const SortingForm: React.FC<SortingFormProps> = ({
               error={errors.inorganicWeight}
               min="0"
               step="0.1"
-              required
               disabled={isFormLoading}
             />
           </div>

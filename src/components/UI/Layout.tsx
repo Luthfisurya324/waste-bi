@@ -14,13 +14,13 @@ export const Layout: React.FC<LayoutProps> = ({ children, activePage }) => {
   } | null>(null);
 
   // Fungsi untuk menampilkan notifikasi (akan digunakan oleh halaman-halaman)
-  const showNotification = React.useCallback((type: 'success' | 'error' | 'info', message: string) => {
+  const _showNotification = React.useCallback((type: 'success' | 'error' | 'info', message: string) => {
     setNotification({ type, message });
     setTimeout(() => setNotification(null), 3000);
   }, []);
 
   return (
-    <div className="flex min-h-screen bg-gray-50">
+    <div className="flex h-screen w-screen overflow-hidden bg-gray-50">
       {/* Sidebar */}
       <Sidebar activePage={activePage} />
       
@@ -44,7 +44,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, activePage }) => {
         )}
         
         {/* Page Content */}
-        <div className="max-w-7xl mx-auto">
+        <div className="w-full">
           {children}
         </div>
       </div>

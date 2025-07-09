@@ -60,18 +60,45 @@ export const validateSortingForm = (data: SortingFormData, initialWeight: number
     errors.push('Mohon pilih truk yang akan dicacah');
   }
 
-  // Validasi berat organik
-  if (data.organicWeight < 0) {
-    errors.push('Berat sampah organik tidak boleh negatif');
-  }
+  // Hitung total berat dari semua kategori sampah
+  let totalProcessed = 0;
+  
+  // Jika menggunakan format baru (wasteItems)
+  if (data.wasteItems && data.wasteItems.length > 0) {
+    // Validasi setiap item kategori sampah
+    for (const item of data.wasteItems) {
+      if (item.weight < 0) {
+        errors.push(`Berat sampah tidak boleh negatif`);
+        break;
+      }
+      totalProcessed += item.weight;
+    }
+    
+    // Validasi minimal ada satu kategori sampah yang dicacah
+    if (data.wasteItems.length === 0) {
+      errors.push('Minimal harus ada satu kategori sampah yang dicacah');
+    }
+  } 
+  // Jika menggunakan format lama (organicWeight dan inorganicWeight)
+  else if (data.organicWeight !== undefined && data.inorganicWeight !== undefined) {
+    // Validasi berat organik
+    if (data.organicWeight < 0) {
+      errors.push('Berat sampah organik tidak boleh negatif');
+    }
 
-  // Validasi berat anorganik
-  if (data.inorganicWeight < 0) {
-    errors.push('Berat sampah anorganik tidak boleh negatif');
+    // Validasi berat anorganik
+    if (data.inorganicWeight < 0) {
+      errors.push('Berat sampah anorganik tidak boleh negatif');
+    }
+
+    totalProcessed = data.organicWeight + data.inorganicWeight;
+  } 
+  // Jika tidak ada data yang valid
+  else {
+    errors.push('Data pencacahan tidak valid');
   }
 
   // Validasi total berat tidak melebihi berat awal + toleransi 5%
-  const totalProcessed = data.organicWeight + data.inorganicWeight;
   const maxAllowed = initialWeight * 1.05; // Toleransi 5%
   
   if (totalProcessed > maxAllowed) {
@@ -80,7 +107,7 @@ export const validateSortingForm = (data: SortingFormData, initialWeight: number
 
   // Validasi minimal ada sampah yang dicacah
   if (totalProcessed === 0) {
-    errors.push('Minimal harus ada sampah yang dicacah (organik atau anorganik)');
+    errors.push('Minimal harus ada sampah yang dicacah');
   }
 
   return {

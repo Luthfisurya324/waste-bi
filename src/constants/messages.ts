@@ -52,6 +52,7 @@ export const UI_LABELS = {
   SAVE_SORTING: 'Simpan Data Pencacahan',
   RESET_FORM: 'Reset Form',
   EXPORT_DATA: 'Export Data',
+  BUTTON_EXPORT_REPORT: 'Export Report',
   
   // Table headers
   ENTRY_DATE_SHORT: 'Tgl Masuk',
@@ -68,18 +69,34 @@ export const UI_LABELS = {
   TOTAL_ORGANIC: 'Total Organik',
   TOTAL_INORGANIC: 'Total Anorganik',
   TOTAL_DIFFERENCE: 'Total Selisih',
+  STATS_RECYCLED_YTD: 'Recycled YTD',
+  STATS_SENT_FOR_RECYCLING: 'Sent for Recycling',
+  STATS_NOT_RECYCLABLE: 'Not Recyclable',
+  STATS_SAVINGS_RETURNED: 'Savings Returned (AED)',
+  STATS_RECYCLED_VS_COLLECTED: 'Recycled vs Collected',
+  STATS_RECYCLED_BY_CATEGORY: 'Recycled by Category YTD',
+  STATS_CO2_EMISSIONS: 'CO2 Emissions by Year',
+  
+  // Recycling Categories
+  CATEGORY_CARDBOARD: 'Cardboard',
+  CATEGORY_PAPER: 'Paper',
+  CATEGORY_METAL: 'Metal',
+  CATEGORY_PLASTIC: 'Plastic',
+  CATEGORY_OIL: 'Oil & Grease',
   
   // App Header
   APP_TITLE: 'Dashboard BI Pengolahan Sampah',
   APP_SUBTITLE: 'Sistem monitoring penimbangan dan pencacahan sampah',
+  DASHBOARD_TITLE: 'Industrial Waste Management Dashboard',
 
   // Section titles
-  DASHBOARD_TITLE: 'Statistik Keseluruhan',
   DASHBOARD_SUBTITLE: 'Ringkasan data dari semua truk yang telah diproses',
   INITIAL_FORM_TITLE: '📝 Input Data Awal Truk (Saat Masuk)',
   SORTING_FORM_TITLE: '⚖️ Input Data Pencacahan (Setelah Dicacah)',
   UNSORTED_TABLE_TITLE: '🚛 Truk Menunggu Pencacahan',
-  SORTED_TABLE_TITLE: '✅ Data Truk Sudah Dicacah'
+  SORTED_TABLE_TITLE: '✅ Data Truk Sudah Dicacah',
+  SECTION_RECYCLING: 'Daur Ulang',
+  SECTION_EMISSIONS: 'Emisi'
 } as const;
 
 // Placeholder text

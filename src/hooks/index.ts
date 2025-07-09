@@ -11,4 +11,4 @@ export {
 
 export {
   useTruckData
-} from './useTruckData';
+} from './useTruckData.tsx';

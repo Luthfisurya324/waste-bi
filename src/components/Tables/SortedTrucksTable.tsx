@@ -26,7 +26,7 @@ export interface SortedTrucksTableProps {
 export const SortedTrucksTable: React.FC<SortedTrucksTableProps> = ({
   trucks,
   isLoading = false,
-  onDeleteTruck,
+  _onDeleteTruck, // Parameter tidak digunakan dalam komponen ini
   className = ''
 }) => {
   // Loading skeleton untuk tabel

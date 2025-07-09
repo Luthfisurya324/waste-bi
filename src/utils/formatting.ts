@@ -19,7 +19,7 @@ export const formatNumber = (value: number, locale: string = 'id-ID'): string =>
  * @returns String tanggal yang sudah diformat
  */
 export const formatDate = (
-  date: any,
+  date: Date | string | number | { seconds: number } | null | undefined,
   options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
@@ -162,7 +162,7 @@ export const generateUniqueId = (): string => {
  * @param data - Array data truk yang akan diekspor
  * @param filename - Nama file CSV (default: 'data-truk.csv')
  */
-export const exportToCSV = (data: any[], filename: string = 'data-truk.csv'): void => {
+export const exportToCSV = <T extends Record<string, unknown>>(data: T[], filename: string = 'data-truk.csv'): void => {
   // Header CSV
   const headers = [
     'ID',

@@ -3,13 +3,13 @@
  * @param data - Array objek yang akan diekspor.
  * @param filename - Nama file CSV yang akan diunduh (misal: 'data.csv').
  */
-export const exportToCSV = (data: any[], filename: string): void => {
+export const exportToCSV = <T extends Record<string, unknown>>(data: T[], filename: string): void => {
   if (!data || data.length === 0) {
     console.error('Tidak ada data untuk diekspor.');
     return;
   }
 
-  const replacer = (_key: string, value: any): any => value === null ? '' : value;
+  const replacer = (_key: string, value: unknown): unknown => value === null ? '' : value;
   const header = Object.keys(data[0]);
   const csv = [
     header.join(','), // header row

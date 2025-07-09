@@ -21,3 +21,9 @@ export {
   EXPORT_CONFIG,
   PERFORMANCE_CONFIG
 } from './config';
+
+export {
+  WASTE_CATEGORIES,
+  getWasteCategoryById,
+  getWasteCategoryColor
+} from './wasteCategories';

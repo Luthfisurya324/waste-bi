@@ -9,5 +9,7 @@ export type {
   InitialTruckFormData,
   SortingFormData,
   TotalStats,
-  ValidationResult
+  ValidationResult,
+  WasteCategory,
+  WasteCategoryItem
 } from './truck';

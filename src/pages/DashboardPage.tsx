@@ -5,6 +5,19 @@ import { useTruckData } from '../hooks';
 import { Button } from '../components/UI';
 import { UI_LABELS, ERROR_MESSAGES } from '../constants';
 
+// Styling untuk halaman dashboard modern fullscreen
+const dashboardStyles = {
+  container: 'w-full px-4 sm:px-6 lg:px-8',
+  header: 'bg-white rounded-lg shadow-md p-6 mb-6',
+  title: 'text-3xl font-bold text-gray-800 mb-2',
+  subtitle: 'text-gray-600',
+  buttonContainer: 'flex gap-2',
+  content: 'mb-6'
+};
+
+/**
+ * Halaman Dashboard utama yang menampilkan statistik dan visualisasi data
+ */
 const DashboardPage: React.FC = () => {
   const { totalStats, isLoading, clearAllData, trucks } = useTruckData();
   const { showNotification } = useNotification();
@@ -24,17 +37,17 @@ const DashboardPage: React.FC = () => {
   return (
     <Layout activePage="/">
       {/* Header */}
-      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+      <div className={dashboardStyles.header}>
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">
-              📊 Dashboard
+            <h1 className={dashboardStyles.title}>
+              Industrial Waste Management Dashboard
             </h1>
-            <p className="text-gray-600">
+            <p className={dashboardStyles.subtitle}>
               {UI_LABELS.APP_SUBTITLE}
             </p>
           </div>
-          <div className="flex gap-2">
+          <div className={dashboardStyles.buttonContainer}>
             <Button
               variant="secondary"
               size="sm"
@@ -43,12 +56,21 @@ const DashboardPage: React.FC = () => {
             >
               🗑️ Hapus Semua
             </Button>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => window.print()}
+            >
+              📊 Export Report
+            </Button>
           </div>
         </div>
       </div>
 
-      {/* Dashboard dengan Statistik */}
-      <Dashboard totalStats={totalStats} isLoading={isLoading} />
+      {/* Dashboard dengan Statistik dan Visualisasi */}
+      <div className={`${dashboardStyles.content} w-full`}>
+        <Dashboard totalStats={totalStats} isLoading={isLoading} />
+      </div>
     </Layout>
   );
 };

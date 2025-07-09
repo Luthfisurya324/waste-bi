@@ -27,7 +27,8 @@ const TrukSudahDicacahPage: React.FC = () => {
     try {
       exportToCSV(sortedTrucks, 'truk-sudah-dicacah.csv');
       showNotification('success', 'Data berhasil diekspor ke CSV');
-    } catch (error) {
+    } catch (_error) { // eslint-disable-line @typescript-eslint/no-unused-vars
+      // Error diabaikan, hanya menampilkan notifikasi
       showNotification('error', 'Gagal mengekspor data');
     }
   }, [sortedTrucks, showNotification]);

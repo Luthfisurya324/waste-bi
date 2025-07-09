@@ -3,13 +3,14 @@ import { Layout, useNotification } from '../components/UI';
 import { InitialTruckForm } from '../components/Forms';
 import { useTruckData } from '../hooks';
 import { SUCCESS_MESSAGES, ERROR_MESSAGES } from '../constants';
+import type { InitialTruckFormData } from '../types';
 
 const InputTrukPage: React.FC = () => {
   const { isLoading, addInitialTruckData } = useTruckData();
   const { showNotification } = useNotification();
 
   // Handler untuk form data awal truk
-  const handleInitialTruckSubmit = React.useCallback(async (formData: any): Promise<boolean> => {
+  const handleInitialTruckSubmit = React.useCallback(async (formData: InitialTruckFormData): Promise<boolean> => {
     try {
       await addInitialTruckData(formData);
       showNotification('success', SUCCESS_MESSAGES.TRUCK_ADDED);

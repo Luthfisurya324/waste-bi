@@ -36,13 +36,13 @@ export const Sidebar: React.FC<SidebarProps> = ({ activePage }) => {
   ];
 
   return (
-    <div className="w-64 bg-white shadow-md h-screen p-4">
+    <div className="w-64 bg-white shadow-md h-full p-4 flex flex-col">
       <div className="mb-6">
         <h1 className="text-xl font-bold text-gray-800">🚛 Waste BI</h1>
         <p className="text-sm text-gray-600">Sistem Pencacahan Sampah</p>
       </div>
       
-      <div className="space-y-2">
+      <div className="space-y-2 flex-grow">
         {menuItems.map((item) => (
           <SidebarItem
             key={item.to}
