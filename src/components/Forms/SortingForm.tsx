@@ -70,14 +70,44 @@ export const SortingForm: React.FC<SortingFormProps> = ({
   const handleInputChange = useCallback(
     (field: keyof SortingFormData) => 
       (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-        const value = field === 'truckId' 
-          ? e.target.value 
-          : Number(e.target.value);
-        
-        setFormData(prev => ({
-          ...prev,
-          [field]: value
-        }));
+        if (field === 'truckId') {
+          // Untuk field truckId, gunakan string value
+          setFormData(prev => ({
+            ...prev,
+            [field]: e.target.value
+          }));
+        } else {
+          // Untuk field numerik (organicWeight, inorganicWeight)
+          const inputValue = e.target.value;
+          
+          // Validasi input numerik
+          if (inputValue === '') {
+            // Jika input kosong, set ke 0
+            setFormData(prev => ({
+              ...prev,
+              [field]: 0
+            }));
+          } else {
+            // Konversi ke number dan validasi
+            const numValue = Number(inputValue);
+            
+            // Pastikan nilai tidak negatif
+            if (numValue < 0) {
+              // Jika negatif, tolak perubahan dan set error
+              setErrors(prev => ({
+                ...prev,
+                [field]: 'Nilai tidak boleh negatif'
+              }));
+              return;
+            }
+            
+            // Update form data dengan nilai yang valid
+            setFormData(prev => ({
+              ...prev,
+              [field]: numValue
+            }));
+          }
+        }
 
         // Clear error untuk field yang sedang diubah
         if (errors[field]) {
@@ -156,9 +186,12 @@ export const SortingForm: React.FC<SortingFormProps> = ({
 
   const isFormLoading = isLoading || isSubmitting;
 
-  // Hitung total dan sisa berat
-  const totalProcessed = formData.organicWeight + formData.inorganicWeight;
-  const remainingWeight = selectedTruck ? selectedTruck.initialWeight - totalProcessed : 0;
+  // Hitung total dan sisa berat dengan useMemo untuk optimasi performa
+  const { totalProcessed, remainingWeight } = React.useMemo(() => {
+    const total = formData.organicWeight + formData.inorganicWeight;
+    const remaining = selectedTruck ? selectedTruck.initialWeight - total : 0;
+    return { totalProcessed: total, remainingWeight: remaining };
+  }, [formData.organicWeight, formData.inorganicWeight, selectedTruck]);
 
   return (
     <div className={`bg-white rounded-lg shadow-md p-6 ${className}`}>

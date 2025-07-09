@@ -5,10 +5,10 @@ import React from 'react';
  */
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   /** Variant styling untuk button */
-  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger';
   
   /** Ukuran button */
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg';
   
   /** Loading state */
   isLoading?: boolean;
@@ -80,20 +80,15 @@ export const Button: React.FC<ButtonProps> = ({
       'focus:ring-yellow-500'
     ],
     danger: [
-      'bg-red-500',
-      'hover:bg-red-600',
-      'text-white'
-    ],
-    ghost: [
-      'bg-transparent',
-      'hover:bg-gray-100',
-      'text-gray-600'
+      'bg-red-600',
+      'text-white',
+      'hover:bg-red-700',
+      'focus:ring-red-500'
     ]
   };
 
   // Size classes
   const sizeClasses = {
-    xs: ['px-2', 'py-1', 'text-xs'],
     sm: ['px-3', 'py-1.5', 'text-sm'],
     md: ['px-4', 'py-2', 'text-sm'],
     lg: ['px-6', 'py-3', 'text-base']

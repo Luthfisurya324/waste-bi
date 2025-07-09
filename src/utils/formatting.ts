@@ -19,14 +19,33 @@ export const formatNumber = (value: number, locale: string = 'id-ID'): string =>
  * @returns String tanggal yang sudah diformat
  */
 export const formatDate = (
-  date: Date,
+  date: any,
   options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
-    day: 'numeric'
+    day: 'numeric',
   }
 ): string => {
-  return date.toLocaleDateString('id-ID', options);
+  if (!date) {
+    return 'N/A';
+  }
+
+  let dateObj: Date;
+
+  // Handle Firestore Timestamps (yang merupakan objek dengan properti seconds)
+  if (date && typeof date.seconds === 'number') {
+    dateObj = new Date(date.seconds * 1000);
+  } else {
+    // Handle string, number, atau Date object
+    dateObj = date instanceof Date ? date : new Date(date);
+  }
+
+  // Periksa apakah tanggal valid setelah konversi
+  if (isNaN(dateObj.getTime())) {
+    return 'Tanggal tidak valid';
+  }
+
+  return dateObj.toLocaleDateString('id-ID', options);
 };
 
 /**
@@ -136,4 +155,56 @@ export const truncateText = (text: string, maxLength: number = 50): string => {
  */
 export const generateUniqueId = (): string => {
   return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+};
+
+/**
+ * Ekspor data truk ke format CSV dan download sebagai file
+ * @param data - Array data truk yang akan diekspor
+ * @param filename - Nama file CSV (default: 'data-truk.csv')
+ */
+export const exportToCSV = (data: any[], filename: string = 'data-truk.csv'): void => {
+  // Header CSV
+  const headers = [
+    'ID',
+    'Nomor Plat',
+    'Berat Awal (kg)',
+    'Tanggal Masuk',
+    'Berat Organik (kg)',
+    'Berat Anorganik (kg)',
+    'Total Dicacah (kg)',
+    'Selisih (kg)',
+    'Tanggal Cacah',
+    'Status'
+  ];
+  
+  // Konversi data ke format CSV
+  const rows = data.map(truck => [
+    truck.id,
+    truck.plateNumber,
+    truck.initialWeight,
+    formatDateForInput(truck.entryDate),
+    truck.organicWeight || 0,
+    truck.inorganicWeight || 0,
+    truck.totalProcessed || 0,
+    truck.difference || 0,
+    truck.sortingDate ? formatDateForInput(truck.sortingDate) : '',
+    truck.status === 'initial' ? 'Belum Dicacah' : 'Sudah Dicacah'
+  ]);
+  
+  // Gabungkan header dan rows
+  const csvContent = [
+    headers.join(','),
+    ...rows.map(row => row.join(','))
+  ].join('\n');
+  
+  // Buat file dan download
+  const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.setAttribute('href', url);
+  link.setAttribute('download', filename);
+  link.style.visibility = 'hidden';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
 };

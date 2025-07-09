@@ -13,6 +13,8 @@ export const validateInitialTruckForm = (data: InitialTruckFormData): Validation
     errors.push('Nomor plat tidak boleh kosong');
   } else if (data.plateNumber.trim().length < 3) {
     errors.push('Nomor plat minimal 3 karakter');
+  } else if (!validateIndonesianPlateNumber(data.plateNumber)) {
+    errors.push('Format nomor plat tidak valid (contoh: B 1234 ABC)');
   }
 
   // Validasi berat awal

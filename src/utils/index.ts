@@ -22,3 +22,5 @@ export {
   truncateText,
   generateUniqueId
 } from './formatting';
+
+export { exportToCSV } from './export';

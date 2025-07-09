@@ -148,6 +148,19 @@ export function useTruckData() {
   const deleteTruck = useCallback(
     (truckId: string): boolean => {
       try {
+        // Cari truk yang akan dihapus untuk konfirmasi
+        const truckToDelete = trucks.find(truck => truck.id === truckId);
+        if (!truckToDelete) {
+          setError('Truk tidak ditemukan');
+          return false;
+        }
+        
+        // Konfirmasi penghapusan
+        const confirmMessage = `Apakah Anda yakin ingin menghapus data truk ${truckToDelete.plateNumber}?`;
+        if (!window.confirm(confirmMessage)) {
+          return false; // Pengguna membatalkan
+        }
+        
         const updatedTrucks = trucks.filter(truck => truck.id !== truckId);
         setTrucks(updatedTrucks);
         setSuccessMessage('Data truk berhasil dihapus');
@@ -162,6 +175,12 @@ export function useTruckData() {
 
   // Function untuk clear semua data
   const clearAllData = useCallback(() => {
+    // Konfirmasi penghapusan semua data
+    const confirmMessage = 'Apakah Anda yakin ingin menghapus SEMUA data truk? Tindakan ini tidak dapat dibatalkan.';
+    if (!window.confirm(confirmMessage)) {
+      return; // Pengguna membatalkan
+    }
+    
     setTrucks([]);
     clearMessages();
     setSuccessMessage('Semua data berhasil dihapus');
