@@ -1,4 +1,4 @@
-import { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import type {
   TruckData,
   InitialTruckFormData,
@@ -12,7 +12,7 @@ import {
   generateUniqueId
 } from '../utils';
 import { useTruckStorage } from './useLocalStorage';
-import { ERROR_MESSAGES, SUCCESS_MESSAGES } from '../constants';
+import { ERROR_MESSAGES, SUCCESS_MESSAGES, STORAGE_CONFIG } from '../constants';
 
 /**
  * Custom hook untuk mengelola data truk dengan validasi dan error handling
@@ -130,7 +130,7 @@ export function useTruckData() {
         else if (formData.organicWeight !== undefined && formData.inorganicWeight !== undefined) {
           organicWeight = formData.organicWeight;
           inorganicWeight = formData.inorganicWeight;
-          totalProcessed = organicWeight + inorganicWeight;
+          totalProcessed = (organicWeight ?? 0) + (inorganicWeight ?? 0);
           
           // Konversi ke format baru untuk konsistensi
           formData.wasteItems = [
@@ -202,14 +202,14 @@ export function useTruckData() {
   // Function untuk clear semua data
   const clearAllData = React.useCallback(() => {
     try {
-      localStorage.removeItem(STORAGE_KEY);
+      localStorage.removeItem(STORAGE_CONFIG.TRUCKS_KEY);
       setTrucks([]);
       setSuccessMessage('Semua data berhasil dihapus');
     } catch (_err) { // eslint-disable-line @typescript-eslint/no-unused-vars
       // Error diabaikan karena tidak mempengaruhi fungsionalitas utama
       setError(ERROR_MESSAGES.GENERIC_ERROR);
     }
-  }, [setTrucks, setSuccessMessage, setError]);
+  }, []);
 
   // Computed values dengan memoization untuk performance
   const unsortedTrucks = useMemo(
@@ -228,7 +228,7 @@ export function useTruckData() {
     const totalOrganic = trucks.reduce((sum, truck) => sum + (truck.organicWeight || 0), 0);
     const totalInorganic = trucks.reduce((sum, truck) => sum + (truck.inorganicWeight || 0), 0);
     // Variabel ini dihitung tapi tidak digunakan dalam return statement
-    const _totalProcessed = totalOrganic + totalInorganic;
+
     const totalDifference = trucks.reduce((sum, truck) => {
       const truckProcessed = (truck.organicWeight || 0) + (truck.inorganicWeight || 0);
       return sum + (truck.initialWeight - truckProcessed);

@@ -78,8 +78,8 @@ const CustomTooltip = ({ active, payload, label }: any) => {
 };
 
 // Sesudah
-import { TooltipProps } from 'recharts';
-import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
+import { TooltipProps } from 'recharts/lib/component/Tooltip';
+import { NameType, ValueType } from 'recharts/lib/component/DefaultTooltipContent';
 
 const CustomTooltip = ({ active, payload, label }: TooltipProps<ValueType, NameType>) => {
   // ...

@@ -2,6 +2,39 @@
  * Utility functions untuk formatting data dan tampilan
  */
 
+// Tipe untuk input tanggal yang fleksibel
+export type DateInput = Date | string | number | { seconds: number; nanoseconds?: number } | null | undefined;
+
+/**
+ * Mengonversi berbagai format input menjadi objek Date yang valid.
+ * Fungsi ini menangani string, angka (timestamp), objek Date, dan objek Firestore Timestamp.
+ * @param date - Input tanggal dalam berbagai format.
+ * @returns Objek Date yang valid atau null jika input tidak valid.
+ */
+export const convertToDate = (date: DateInput): Date | null => {
+  if (!date) {
+    return null;
+  }
+
+  // Jika sudah merupakan objek Date
+  if (date instanceof Date) {
+    return !isNaN(date.getTime()) ? date : null;
+  }
+
+  // Handle objek Firestore Timestamp-like { seconds: ..., ... }
+  if (typeof date === 'object' && 'seconds' in date && typeof date.seconds === 'number') {
+    return new Date(date.seconds * 1000);
+  }
+  
+  // Handle string atau number
+  if (typeof date === 'string' || typeof date === 'number') {
+    const d = new Date(date);
+    return !isNaN(d.getTime()) ? d : null;
+  }
+
+  return null;
+};
+
 /**
  * Format angka dengan pemisah ribuan untuk tampilan yang lebih mudah dibaca
  * @param value - Angka yang akan diformat
@@ -19,30 +52,17 @@ export const formatNumber = (value: number, locale: string = 'id-ID'): string =>
  * @returns String tanggal yang sudah diformat
  */
 export const formatDate = (
-  date: Date | string | number | { seconds: number } | null | undefined,
+  date: DateInput,
   options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
   }
 ): string => {
-  if (!date) {
+  const dateObj = convertToDate(date);
+
+  if (!dateObj) {
     return 'N/A';
-  }
-
-  let dateObj: Date;
-
-  // Handle Firestore Timestamps (yang merupakan objek dengan properti seconds)
-  if (date && typeof date.seconds === 'number') {
-    dateObj = new Date(date.seconds * 1000);
-  } else {
-    // Handle string, number, atau Date object
-    dateObj = date instanceof Date ? date : new Date(date);
-  }
-
-  // Periksa apakah tanggal valid setelah konversi
-  if (isNaN(dateObj.getTime())) {
-    return 'Tanggal tidak valid';
   }
 
   return dateObj.toLocaleDateString('id-ID', options);
@@ -182,12 +202,12 @@ export const exportToCSV = <T extends Record<string, unknown>>(data: T[], filena
     truck.id,
     truck.plateNumber,
     truck.initialWeight,
-    formatDateForInput(truck.entryDate),
+    formatDateForInput(convertToDate(truck.entryDate as DateInput) || new Date()),
     truck.organicWeight || 0,
     truck.inorganicWeight || 0,
     truck.totalProcessed || 0,
     truck.difference || 0,
-    truck.sortingDate ? formatDateForInput(truck.sortingDate) : '',
+    truck.sortingDate ? formatDateForInput(convertToDate(truck.sortingDate as DateInput) || new Date()) : '',
     truck.status === 'initial' ? 'Belum Dicacah' : 'Sudah Dicacah'
   ]);
   

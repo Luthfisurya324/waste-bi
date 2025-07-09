@@ -1,6 +1,8 @@
 import React from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, TooltipProps } from 'recharts';
-import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+// Perbaikan path impor untuk TooltipProps, NameType, dan ValueType
+import { TooltipProps } from 'recharts/lib/component/Tooltip';
+import { NameType, ValueType } from 'recharts/lib/component/DefaultTooltipContent';
 import { formatNumber } from '../../utils';
 
 /**

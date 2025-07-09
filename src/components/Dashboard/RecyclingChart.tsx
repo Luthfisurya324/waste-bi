@@ -1,6 +1,8 @@
 import React from 'react';
-import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend, TooltipProps } from 'recharts';
-import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from 'recharts';
+// Perbaikan path impor untuk TooltipProps, NameType, dan ValueType
+import { TooltipProps } from 'recharts/lib/component/Tooltip';
+import { NameType, ValueType } from 'recharts/lib/component/DefaultTooltipContent';
 import { formatPercentage, formatWeight } from '../../utils';
 import { COLOR_CONFIG } from '../../constants';
 

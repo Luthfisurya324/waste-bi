@@ -1,11 +1,47 @@
-# React + TypeScript + Vite
+# Waste BI Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplikasi dashboard untuk manajemen dan analisis data sampah.
 
-Currently, two official plugins are available:
+## Dokumentasi Pengembangan
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Dokumentasi pengembangan tersedia di direktori `/docs`:
+
+- [001 - Penataan dan Organisasi Proyek](./docs/001_project_cleanup_and_organization.md)
+- [002 - Implementasi Sidebar dan Halaman Terpisah](./docs/002_implementasi_sidebar_dan_halaman_terpisah.md)
+- [003 - Perbaikan Impor Tipe TruckData](./docs/003_perbaikan_impor_tipe_truckdata.md)
+- [004 - Perbaikan Impor TruckData PencacahanPage](./docs/004_perbaikan_impor_truckdata_pencacahanpage.md)
+- [005 - Peningkatan Kualitas Kode](./docs/005_peningkatan_kualitas_kode.md)
+- [006 - Implementasi No Explicit Any](./docs/006_implementasi_no_explicit_any.md)
+- [007 - Implementasi No Unused Vars](./docs/007_implementasi_no_unused_vars.md)
+- [008 - Perbaikan Path Impor Recharts](./docs/008_perbaikan_path_impor_recharts.md)
+
+## Teknologi
+
+Proyek ini menggunakan:
+
+- React + TypeScript + Vite
+- Tailwind CSS untuk styling
+- Recharts untuk visualisasi data
+
+## Pengembangan
+
+### Instalasi
+
+```bash
+pnpm install
+```
+
+### Menjalankan Development Server
+
+```bash
+pnpm dev
+```
+
+### Build untuk Production
+
+```bash
+pnpm build
+```
 
 ## Expanding the ESLint configuration
 
